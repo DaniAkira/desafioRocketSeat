@@ -44,4 +44,11 @@ export const routes = [
       return res.writeHead(201).end();
     },
   },
+  {
+    method: "PUT",
+    path: buildRoutePath("/tasks/:id"),
+    handler: (req, res) => {
+      const { title, description } = req.body
+    }
+  }
 ];
