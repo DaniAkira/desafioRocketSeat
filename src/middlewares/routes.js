@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { buildRoutePath } from "../utils/buildRoutePath.js";
 import { Database } from "./database.js";
+import { processCSV } from "./readingCSVFile.js";
 
 const database = new Database();
 
@@ -128,5 +129,20 @@ export const routes = [
         res.writeHead(404).end()
       }
     }
+  },
+  {
+    method: "POST",
+    path: buildRoutePath("/tasks/read-csv"),
+    handler: (req, res) => {
+      const csvFilePath = 'src/middlewares/csvTest.csv'
+
+      processCSV(csvFilePath)
+        .then(() => {
+          res.writeHead(201).end()
+        })
+        .catch((err) => {
+          res.writeHead(500).end()
+        })
+    },
   },
 ];
