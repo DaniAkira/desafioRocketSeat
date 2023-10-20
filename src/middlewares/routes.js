@@ -57,13 +57,12 @@ export const routes = [
         return res.writeHead(400).end();
       } else {
         const { title, description } = req.body;
-        if(!title || !description) {
+        if (!title || !description) {
           return res.writeHead(400).end();
         }
         const id = req.params.id;
         const date = new Date();
         const task = database.selectOne("tasks", id);
-        console.log(task);
 
         const updatedTask = {
           id: id,
@@ -79,5 +78,33 @@ export const routes = [
         return res.writeHead(204).end();
       }
     },
+  },
+  {
+    method: "PATCH",
+    path: buildRoutePath("/tasks/:id/complete"),
+    handler: (req, res) => {
+      const id = req.params.id
+      const date = new Date()
+
+      try {
+        const task = database.selectOne('tasks', id)
+
+        if(task.completedAt == null){
+          task.completedAt = date
+          task.updatedAt = date
+  
+          database.update('tasks', id, task)
+  
+          return res.writeHead(200).end()
+        } else {
+          task.completedAt = null
+          task.updatedAt = date
+          return res.writeHead(200).end()
+        }
+
+      } catch (error) {
+        return res.writeHead(400).end()
+      }
+    }
   },
 ];

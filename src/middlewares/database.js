@@ -58,12 +58,13 @@ export class Database {
             this.#persist()
         }
     }
-
-    updateOne(table, id, key) {
+//VOLTAR AQUI
+    updateOne(table, id, key, value) {
         const rowIndex = this.#database.findIndex(row => row.id === id)
 
         const task = this.#database[table][rowIndex]
         console.log(task)
+        task.key =  value
         this.#persist()
         
     }
