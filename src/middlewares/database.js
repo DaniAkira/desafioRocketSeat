@@ -53,6 +53,15 @@ export class Database {
         }
     }
 
+    updateOne(table, id, key) {
+        const rowIndex = this.#database.findIndex(row => row.id === id)
+
+        const task = this.#database[table][rowIndex]
+        console.log(task)
+        this.#persist()
+        
+    }
+
     delete(table, id) {
         const rowIndex = this.#database.findIndex(row => row.id === id)
 
