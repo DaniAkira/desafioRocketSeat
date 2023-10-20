@@ -32,21 +32,29 @@ export const routes = [
     method: "POST",
     path: buildRoutePath("/tasks"),
     handler: (req, res) => {
-      const { title, description } = req.body;
-      const date = new Date();
-
-      const task = {
-        id: randomUUID(),
-        title,
-        description,
-        completedAt: null,
-        createdAt: date,
-        updatedAt: date,
-      };
-
-      database.insert("tasks", task);
-
-      return res.writeHead(201).end();
+      if(!req.body){
+        return res.writeHead(400).end()
+      } else {
+        if(!req.body.title || !req.body.description) {
+          return res.writeHead(400).end()
+        } else {
+          const { title, description } = req.body;
+          const date = new Date();
+    
+          const task = {
+            id: randomUUID(),
+            title,
+            description,
+            completedAt: null,
+            createdAt: date,
+            updatedAt: date,
+          };
+    
+          database.insert("tasks", task);
+    
+          return res.writeHead(201).end();
+        }
+      }
     },
   },
   {
