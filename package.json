@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "httpie": "^1.1.2"
+    "csv-parse": "^5.5.2",
+    "fs": "^0.0.1-security",
+    "httpie": "^1.1.2",
+    "node-fetch": "^3.3.2"
   }
 }
