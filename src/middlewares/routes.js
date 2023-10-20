@@ -19,9 +19,6 @@ export const routes = [
               id: search,
               title: search,
               description: search,
-              completedAt: search,
-              createdAt: search,
-              updatedAt: search,
             }
           : null
       );
@@ -58,6 +55,22 @@ export const routes = [
       }
     },
   },
+  //POST by CSV
+  {
+    method: "POST",
+    path: buildRoutePath("/tasks/read-csv"),
+    handler: (req, res) => {
+      const csvFilePath = 'src/middlewares/csvTest.csv'
+  
+      processCSV(csvFilePath)
+        .then(() => {
+          res.writeHead(201).end()
+        })
+        .catch((err) => {
+          res.writeHead(500).end()
+        })
+    },
+  },
   {
     method: "PUT",
     path: buildRoutePath("/tasks/:id"),
@@ -72,7 +85,7 @@ export const routes = [
         const id = req.params.id;
         const date = new Date();
         const task = database.selectOne("tasks", id);
-
+        
         const updatedTask = {
           id: id,
           title,
@@ -94,16 +107,16 @@ export const routes = [
     handler: (req, res) => {
       const id = req.params.id;
       const date = new Date();
-
+      
       try {
         const task = database.selectOne("tasks", id);
-
+        
         if (task.completedAt == null) {
           task.completedAt = date;
           task.updatedAt = date;
-
+          
           database.update("tasks", id, task);
-
+          
           return res.writeHead(200).end();
         } else {
           task.completedAt = null;
@@ -125,24 +138,9 @@ export const routes = [
         database.delete('tasks', id)
         return res.writeHead(200).end()
       }
-       catch (error) {
+      catch (error) {
         res.writeHead(404).end()
       }
     }
-  },
-  {
-    method: "POST",
-    path: buildRoutePath("/tasks/read-csv"),
-    handler: (req, res) => {
-      const csvFilePath = 'src/middlewares/csvTest.csv'
-
-      processCSV(csvFilePath)
-        .then(() => {
-          res.writeHead(201).end()
-        })
-        .catch((err) => {
-          res.writeHead(500).end()
-        })
-    },
-  },
+  }
 ];
