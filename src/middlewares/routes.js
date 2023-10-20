@@ -7,11 +7,20 @@ const database = new Database();
 export const routes = [
   {
     method: "GET",
-    path: buildRoutePath("/task"),
+    path: buildRoutePath("/tasks"),
     handler: (req, res) => {
       const { search } = req.query;
 
-      const tasks = 0;
+      const tasks = database.select("tasks", search ? {
+        id: search,
+        title: search,
+        description: search,
+        completedAt: search,
+        createdAt: search,
+        updatedAt: search,
+      } : null );
+
+      return res.end(JSON.stringify(tasks))
     },
   },
   {
