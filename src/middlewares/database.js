@@ -58,19 +58,9 @@ export class Database {
             this.#persist()
         }
     }
-//VOLTAR AQUI
-    updateOne(table, id, key, value) {
-        const rowIndex = this.#database.findIndex(row => row.id === id)
-
-        const task = this.#database[table][rowIndex]
-        console.log(task)
-        task.key =  value
-        this.#persist()
-        
-    }
 
     delete(table, id) {
-        const rowIndex = this.#database.findIndex(row => row.id === id)
+        const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
         if (rowIndex > -1) {
             this.#database[table].splice(rowIndex, 1)
